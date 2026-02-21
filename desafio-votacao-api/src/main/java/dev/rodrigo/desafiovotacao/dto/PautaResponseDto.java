@@ -1,6 +1,5 @@
 package dev.rodrigo.desafiovotacao.dto;
 
-import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +13,5 @@ public class PautaResponseDto {
 
   private String descricao;
 
-  private List<SessaoVotacao> sessoes;
+  private List<SessaoResponseDto> sessoes;
 }

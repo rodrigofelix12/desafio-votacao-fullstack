@@ -2,14 +2,13 @@ package dev.rodrigo.desafiovotacao.controller;
 
 import dev.rodrigo.desafiovotacao.dto.PautaRequestDto;
 import dev.rodrigo.desafiovotacao.dto.PautaResponseDto;
-import dev.rodrigo.desafiovotacao.entity.Pauta;
 import dev.rodrigo.desafiovotacao.mappers.PautaMapper;
 import dev.rodrigo.desafiovotacao.service.PautaService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +30,7 @@ public class PautaController {
   }
 
   @PostMapping()
+  @ResponseStatus(HttpStatus.CREATED)
   public void criarPauta(@RequestBody PautaRequestDto dto) {
     service.criarNovaPauta(dto);
   }
