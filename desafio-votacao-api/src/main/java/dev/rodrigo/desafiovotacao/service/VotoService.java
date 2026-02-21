@@ -1,0 +1,99 @@
+package dev.rodrigo.desafiovotacao.service;
+
+import dev.rodrigo.desafiovotacao.dto.ResultadoVotacaoDto;
+import dev.rodrigo.desafiovotacao.dto.VotoRequestDto;
+import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
+import dev.rodrigo.desafiovotacao.entity.Voto;
+import dev.rodrigo.desafiovotacao.enums.ResultadoVotacao;
+import dev.rodrigo.desafiovotacao.enums.TipoVoto;
+import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
+import dev.rodrigo.desafiovotacao.repository.VotoRepository;
+import java.time.LocalDateTime;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class VotoService {
+
+  private final VotoRepository repository;
+  private final SessaoVotacaoRepository sessaoRepository;
+
+  public Voto votar(Long sessaoId, VotoRequestDto request) {
+    SessaoVotacao sessao = verificarSessaoAberta(sessaoId);
+
+    boolean jaVotou = repository.existsBySessaoIdAndAssociadoId(sessaoId, request.getAssociadoId());
+
+    if (jaVotou) {
+      throw new RuntimeException("Associado já votou nesta sessão");
+    }
+
+    Voto voto = new Voto();
+    voto.setSessao(sessao);
+    voto.setAssociadoId(request.getAssociadoId());
+    voto.setTipoVoto(request.getVoto());
+    voto.setDataHora(LocalDateTime.now());
+
+    repository.save(voto);
+
+    return voto;
+  }
+
+  private SessaoVotacao verificarSessaoAberta(Long sessaoId) {
+    SessaoVotacao sessao =
+        sessaoRepository
+            .findById(sessaoId)
+            .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+
+    if (!sessao.isAberta()) {
+      throw new RuntimeException("Sessão está fechada");
+    }
+    return sessao;
+  }
+
+  @Transactional
+  public ResultadoVotacaoDto contabilizar(Long sessaoId) {
+
+    SessaoVotacao sessao =
+        sessaoRepository
+            .findById(sessaoId)
+            .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+
+    long votosSim = repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.SIM);
+    long votosNao = repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.NAO);
+
+    if (sessao.isAberta() && sessao.isExpirada()) {
+
+      ResultadoVotacao resultado = calcularResultado(votosSim, votosNao);
+
+      sessao.encerrar(resultado);
+    }
+
+    if (sessao.isAberta()) {
+      throw new RuntimeException("Sessão ainda está aberta");
+    }
+
+    return ResultadoVotacaoDto.builder()
+        .sessaoId(sessaoId)
+        .votosSim(votosSim)
+        .votosNao(votosNao)
+        .total(votosSim + votosNao)
+        .resultado(sessao.getResultado())
+        .build();
+  }
+
+  private ResultadoVotacao calcularResultado(long votosSim, long votosNao) {
+
+    if (votosSim > votosNao) {
+      return ResultadoVotacao.APROVADO;
+    }
+
+    if (votosNao > votosSim) {
+      return ResultadoVotacao.REPROVADO;
+    }
+
+    return ResultadoVotacao.EMPATE;
+  }
+}
