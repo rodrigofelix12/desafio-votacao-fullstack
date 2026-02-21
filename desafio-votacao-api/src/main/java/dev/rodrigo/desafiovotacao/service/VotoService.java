@@ -6,11 +6,11 @@ import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
 import dev.rodrigo.desafiovotacao.entity.Voto;
 import dev.rodrigo.desafiovotacao.enums.ResultadoVotacao;
 import dev.rodrigo.desafiovotacao.enums.TipoVoto;
+import dev.rodrigo.desafiovotacao.exceptions.RegraNegocioException;
 import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
 import dev.rodrigo.desafiovotacao.repository.VotoRepository;
-import java.time.LocalDateTime;
-
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +72,7 @@ public class VotoService {
     }
 
     if (sessao.isAberta()) {
-      throw new RuntimeException("Sessão ainda está aberta");
+      throw new RegraNegocioException("Sessão ainda está aberta");
     }
 
     return ResultadoVotacaoDto.builder()
