@@ -65,7 +65,7 @@ public class SessaoVotacaoService {
 
   @Transactional
   public void encerrarSessao(Long sessaoId) {
-    SessaoVotacao sessao = verificarSeSessaoExiste(sessaoId);
+    SessaoVotacao sessao = buscarPorId(sessaoId);
     if (!sessao.isAberta()) {
       throw new RegraNegocioException("Sessão já foi encerrada");
     }
@@ -73,11 +73,5 @@ public class SessaoVotacaoService {
     sessao.setStatus(StatusSessao.ENCERRADA);
     sessao.isExpirada();
     repository.save(sessao);
-  }
-
-  private SessaoVotacao verificarSeSessaoExiste(Long sessaoId) {
-    return repository
-        .findById(sessaoId)
-        .orElseThrow(() -> new RegraNegocioException("Sessão não encontrada"));
   }
 }

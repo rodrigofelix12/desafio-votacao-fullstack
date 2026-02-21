@@ -88,4 +88,27 @@ class SessaoVotacaoControllerTest {
         .perform(post("/api/sessoes/sessao/encerrar/{sessaoId}", sessaoId))
         .andExpect(status().isOk());
   }
+
+  @Test
+  void deveAbrirSessaoSemTempoERetornar201() throws Exception {
+
+    Long pautaId = 1L;
+
+    SessaoRequestDto request = new SessaoRequestDto();
+
+    SessaoVotacao sessao = new SessaoVotacao();
+    sessao.setId(100L);
+
+    SessaoResponseDto responseDto = new SessaoResponseDto();
+    responseDto.setId(100L);
+
+    when(service.abrirSessao(pautaId, request)).thenReturn(sessao);
+    when(mapper.toSessaoResponseDto(sessao)).thenReturn(responseDto);
+
+    mockMvc
+        .perform(
+            post("/api/sessoes/pauta/{pautaId}", pautaId).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.id").value(100L));
+  }
 }

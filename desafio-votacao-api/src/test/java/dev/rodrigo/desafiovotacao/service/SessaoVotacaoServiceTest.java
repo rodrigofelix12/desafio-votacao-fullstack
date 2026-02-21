@@ -139,4 +139,13 @@ class SessaoVotacaoServiceTest {
 
     assertThrows(RegraNegocioException.class, () -> service.encerrarSessao(1L));
   }
+
+  @Test
+  void deveLancarExcecaoSeSessaoNaoExistir() {
+    Long sessaoId = 1L;
+
+    when(repository.findById(sessaoId)).thenReturn(Optional.empty());
+
+    assertThrows(RecursoNaoEncontradoException.class, () -> service.buscarPorId(sessaoId));
+  }
 }

@@ -142,4 +142,55 @@ class VotoServiceTest {
 
     verify(sessao).encerrar(any());
   }
+
+  @Test
+  void deveLancarExcecaoSeSessaoNaoExistir() {
+    Long sessaoId = 1L;
+
+    when(sessaoRepository.findById(sessaoId)).thenReturn(Optional.empty());
+
+    assertThrows(RegraNegocioException.class, () -> service.contabilizar(sessaoId));
+  }
+
+  @Test
+  void deveRetornarReprovadoNoResultadoDaSessao() {
+
+    Long sessaoId = 1L;
+
+    SessaoVotacao sessao = mock(SessaoVotacao.class);
+
+    when(sessao.isExpirada()).thenReturn(true);
+    when(sessao.isAberta()).thenReturn(false);
+
+    when(sessaoRepository.findById(sessaoId)).thenReturn(Optional.of(sessao));
+
+    when(repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.SIM)).thenReturn(3L);
+
+    when(repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.NAO)).thenReturn(5L);
+
+    service.contabilizar(sessaoId);
+
+    verify(sessao).encerrar(ResultadoVotacao.REPROVADO);
+  }
+
+  @Test
+  void deveRetornarEmpateNoResultadoDaSessao() {
+
+    Long sessaoId = 1L;
+
+    SessaoVotacao sessao = mock(SessaoVotacao.class);
+
+    when(sessao.isExpirada()).thenReturn(true);
+    when(sessao.isAberta()).thenReturn(false);
+
+    when(sessaoRepository.findById(sessaoId)).thenReturn(Optional.of(sessao));
+
+    when(repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.SIM)).thenReturn(5L);
+
+    when(repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.NAO)).thenReturn(5L);
+
+    service.contabilizar(sessaoId);
+
+    verify(sessao).encerrar(ResultadoVotacao.EMPATE);
+  }
 }

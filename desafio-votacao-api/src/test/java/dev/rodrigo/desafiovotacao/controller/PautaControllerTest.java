@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,5 +58,24 @@ class PautaControllerTest {
     mockMvc
         .perform(post("/api").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isCreated());
+  }
+
+  @Test
+  void deveRetornarTodasAsPautas() throws Exception {
+    List<Pauta> pautaList = new ArrayList<>();
+
+    Pauta pauta = new Pauta();
+    pauta.setId(1L);
+    pautaList.add(pauta);
+
+    List<PautaResponseDto> responseDtoList = new ArrayList<>();
+    PautaResponseDto dto = new PautaResponseDto();
+    dto.setId(1L);
+    responseDtoList.add(dto);
+
+    when(service.buscarPautas()).thenReturn(pautaList);
+    when(mapper.toPautaResponseList(pautaList)).thenReturn(responseDtoList);
+
+    mockMvc.perform(get("/api")).andExpect(status().isOk());
   }
 }

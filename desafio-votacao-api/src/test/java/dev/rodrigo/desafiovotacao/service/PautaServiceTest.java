@@ -10,8 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,5 +55,23 @@ class PautaServiceTest {
     when(repository.findById(1L)).thenReturn(Optional.empty());
 
     assertThrows(RecursoNaoEncontradoException.class, () -> service.buscarPautaPorId(1L));
+  }
+
+  @Test
+  void deveRetornarTodasAsPautas() {
+    List<Pauta> pautaList = new ArrayList<>();
+    Pauta pauta = new Pauta();
+    pauta.setId(1L);
+    pautaList.add(pauta);
+
+    when(repository.findAll()).thenReturn(pautaList);
+
+    List<Pauta> resultado = service.buscarPautas();
+
+    assertThat(resultado).isNotNull();
+    assertThat(resultado).hasSize(1);
+    assertThat(resultado.getFirst().getId()).isEqualTo(1L);
+
+    verify(repository).findAll();
   }
 }
