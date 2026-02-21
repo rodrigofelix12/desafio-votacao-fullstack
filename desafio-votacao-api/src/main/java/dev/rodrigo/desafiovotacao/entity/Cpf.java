@@ -11,7 +11,9 @@ import lombok.Getter;
 public class Cpf {
 
   @Column(name = "cpf", nullable = false, length = 11)
-  private final String numero;
+  private String numero;
+
+  protected Cpf() {}
 
   public Cpf(String numero) {
     numero = numero.replaceAll("\\D", "");
