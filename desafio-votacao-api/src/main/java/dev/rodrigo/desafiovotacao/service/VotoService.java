@@ -42,10 +42,7 @@ public class VotoService {
   }
 
   private SessaoVotacao verificarSessaoAberta(Long sessaoId) {
-    SessaoVotacao sessao =
-        sessaoRepository
-            .findById(sessaoId)
-            .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+    SessaoVotacao sessao = verificarSeSessaoExiste(sessaoId);
 
     if (!sessao.isAberta()) {
       throw new RuntimeException("Sessão está fechada");
@@ -56,15 +53,12 @@ public class VotoService {
   @Transactional
   public ResultadoVotacaoDto contabilizar(Long sessaoId) {
 
-    SessaoVotacao sessao =
-        sessaoRepository
-            .findById(sessaoId)
-            .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+    SessaoVotacao sessao = verificarSeSessaoExiste(sessaoId);
 
     long votosSim = repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.SIM);
     long votosNao = repository.countBySessaoIdAndTipoVoto(sessaoId, TipoVoto.NAO);
 
-    if (sessao.isAberta() && sessao.isExpirada()) {
+    if (sessao.isExpirada()) {
 
       ResultadoVotacao resultado = calcularResultado(votosSim, votosNao);
 
@@ -95,5 +89,11 @@ public class VotoService {
     }
 
     return ResultadoVotacao.EMPATE;
+  }
+
+  private SessaoVotacao verificarSeSessaoExiste(Long sessaoId) {
+    return sessaoRepository
+        .findById(sessaoId)
+        .orElseThrow(() -> new RegraNegocioException("Sessão não encontrada"));
   }
 }

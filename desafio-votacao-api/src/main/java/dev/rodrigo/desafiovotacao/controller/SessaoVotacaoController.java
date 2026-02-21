@@ -34,4 +34,9 @@ public class SessaoVotacaoController {
   public SessaoResponseDto buscarSessao(@PathVariable Long id) {
     return mapper.toSessaoResponseDto(service.buscarPorId(id));
   }
+
+  @PostMapping("sessao/encerrar/{sessaoId}")
+  public void encerrarSessao(@PathVariable Long sessaoId) {
+    service.encerrarSessao(sessaoId);
+  }
 }

@@ -8,6 +8,7 @@ import dev.rodrigo.desafiovotacao.exceptions.RecursoNaoEncontradoException;
 import dev.rodrigo.desafiovotacao.exceptions.RegraNegocioException;
 import dev.rodrigo.desafiovotacao.repository.PautaRepository;
 import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,23 @@ public class SessaoVotacaoService {
     return repository
         .findById(id)
         .orElseThrow(() -> new RecursoNaoEncontradoException("Sessão não encontrada"));
+  }
+
+  @Transactional
+  public void encerrarSessao(Long sessaoId) {
+    SessaoVotacao sessao = verificarSeSessaoExiste(sessaoId);
+    if (!sessao.isAberta()) {
+      throw new RegraNegocioException("Sessão já foi encerrada");
+    }
+    sessao.setDataFechamento(LocalDateTime.now());
+    sessao.setStatus(StatusSessao.ENCERRADA);
+    sessao.isExpirada();
+    repository.save(sessao);
+  }
+
+  private SessaoVotacao verificarSeSessaoExiste(Long sessaoId) {
+    return repository
+        .findById(sessaoId)
+        .orElseThrow(() -> new RegraNegocioException("Sessão não encontrada"));
   }
 }
