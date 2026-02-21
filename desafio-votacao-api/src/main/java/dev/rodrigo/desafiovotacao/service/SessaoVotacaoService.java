@@ -4,6 +4,8 @@ import dev.rodrigo.desafiovotacao.dto.SessaoRequestDto;
 import dev.rodrigo.desafiovotacao.entity.Pauta;
 import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
 import dev.rodrigo.desafiovotacao.enums.StatusSessao;
+import dev.rodrigo.desafiovotacao.exceptions.RecursoNaoEncontradoException;
+import dev.rodrigo.desafiovotacao.exceptions.RegraNegocioException;
 import dev.rodrigo.desafiovotacao.repository.PautaRepository;
 import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
 import java.time.LocalDateTime;
@@ -44,17 +46,19 @@ public class SessaoVotacaoService {
     boolean existeSessaoAberta =
         repository.existsByPautaIdAndDataFechamentoAfter(pautaId, LocalDateTime.now());
     if (existeSessaoAberta) {
-      throw new RuntimeException("Já existe uma sessão aberta para essa pauta");
+      throw new RegraNegocioException("Já existe uma sessão aberta para essa pauta");
     }
   }
 
   private Pauta validarSePautaExiste(Long pautaId) {
     return pautaRepository
         .findById(pautaId)
-        .orElseThrow(() -> new RuntimeException("Pauta não encontrada"));
+        .orElseThrow(() -> new RecursoNaoEncontradoException("Pauta não encontrada"));
   }
 
   public SessaoVotacao buscarPorId(Long id) {
-    return repository.findById(id).orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+    return repository
+        .findById(id)
+        .orElseThrow(() -> new RecursoNaoEncontradoException("Sessão não encontrada"));
   }
 }

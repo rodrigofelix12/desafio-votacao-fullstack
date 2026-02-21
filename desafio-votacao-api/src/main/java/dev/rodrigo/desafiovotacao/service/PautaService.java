@@ -2,13 +2,11 @@ package dev.rodrigo.desafiovotacao.service;
 
 import dev.rodrigo.desafiovotacao.dto.PautaRequestDto;
 import dev.rodrigo.desafiovotacao.entity.Pauta;
+import dev.rodrigo.desafiovotacao.exceptions.RecursoNaoEncontradoException;
 import dev.rodrigo.desafiovotacao.repository.PautaRepository;
-import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class PautaService {
   public Pauta buscarPautaPorId(Long id) {
     return repository
         .findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Pauta ID " + id + " não encontrada"));
+        .orElseThrow(() -> new RecursoNaoEncontradoException("Pauta ID " + id + " não encontrada"));
   }
 
   public List<Pauta> buscarPautas() {
