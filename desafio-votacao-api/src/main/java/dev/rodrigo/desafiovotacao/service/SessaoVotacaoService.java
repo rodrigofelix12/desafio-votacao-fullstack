@@ -3,6 +3,7 @@ package dev.rodrigo.desafiovotacao.service;
 import dev.rodrigo.desafiovotacao.dto.SessaoRequestDto;
 import dev.rodrigo.desafiovotacao.entity.Pauta;
 import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
+import dev.rodrigo.desafiovotacao.enums.StatusSessao;
 import dev.rodrigo.desafiovotacao.repository.PautaRepository;
 import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class SessaoVotacaoService {
     sessao.setPauta(pauta);
     sessao.setDataAbertura(agora);
     sessao.setDataFechamento(agora.plusMinutes(duracaoMinutos));
+    sessao.setStatus(StatusSessao.ABERTA);
 
     repository.save(sessao);
 
