@@ -30,7 +30,7 @@ public class VotoService {
     Cpf cpf = new Cpf(request.getCpf());
 
     if (jaVotou) {
-      throw new RuntimeException("Associado já votou nesta sessão");
+      throw new RegraNegocioException("Associado já votou nesta sessão");
     }
 
     Voto voto = new Voto();
@@ -48,7 +48,7 @@ public class VotoService {
     SessaoVotacao sessao = verificarSeSessaoExiste(sessaoId);
 
     if (!sessao.isAberta()) {
-      throw new RuntimeException("Sessão está fechada");
+      throw new RegraNegocioException("Sessão está fechada");
     }
     return sessao;
   }

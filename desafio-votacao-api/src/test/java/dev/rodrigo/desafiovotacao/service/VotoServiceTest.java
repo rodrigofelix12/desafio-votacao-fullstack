@@ -66,7 +66,7 @@ class VotoServiceTest {
     when(sessaoRepository.findById(sessaoId)).thenReturn(Optional.of(sessao));
     when(repository.existsBySessaoIdAndCpfNumero(sessaoId, request.getCpf())).thenReturn(true);
 
-    assertThrows(RuntimeException.class, () -> service.votar(sessaoId, request));
+    assertThrows(RegraNegocioException.class, () -> service.votar(sessaoId, request));
   }
 
   @Test
@@ -83,7 +83,7 @@ class VotoServiceTest {
     request.setCpf("430.691.550-65");
     request.setVoto(TipoVoto.SIM);
 
-    assertThrows(RuntimeException.class, () -> service.votar(sessaoId, request));
+    assertThrows(RegraNegocioException.class, () -> service.votar(sessaoId, request));
   }
 
   @Test
