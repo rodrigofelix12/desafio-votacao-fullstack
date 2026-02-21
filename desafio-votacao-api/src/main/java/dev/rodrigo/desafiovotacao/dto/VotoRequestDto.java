@@ -8,9 +8,11 @@ import lombok.NonNull;
 @Data
 public class VotoRequestDto {
 
-    @NotBlank
-    private String cpf;
+  @NotBlank private String cpf;
 
-    @NonNull
-    private TipoVoto voto;
+  @NonNull private TipoVoto voto;
+
+  public VotoRequestDto() {
+    
+  }
 }
