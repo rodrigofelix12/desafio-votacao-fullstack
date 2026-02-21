@@ -9,7 +9,7 @@ import lombok.NonNull;
 public class VotoRequestDto {
 
     @NotBlank
-    private String associadoId;
+    private String cpf;
 
     @NonNull
     private TipoVoto voto;

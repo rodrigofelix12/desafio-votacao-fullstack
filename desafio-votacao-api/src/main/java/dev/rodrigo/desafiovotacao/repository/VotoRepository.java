@@ -5,7 +5,7 @@ import dev.rodrigo.desafiovotacao.enums.TipoVoto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VotoRepository extends JpaRepository<Voto, Long> {
-  boolean existsBySessaoIdAndAssociadoId(Long sessaoId, String associadoId);
+  boolean existsBySessaoIdAndCpfNumero(Long sessaoId, String numero);
 
   long countBySessaoIdAndTipoVoto(Long sessaoId, TipoVoto voto);
 }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class VotoResponseDto {
   private Long id;
   private Long sessaoId;
-  private String associadoId;
+  private String cpf;
   private TipoVoto voto;
   private LocalDateTime dataHora;
 }

@@ -2,6 +2,7 @@ package dev.rodrigo.desafiovotacao.service;
 
 import dev.rodrigo.desafiovotacao.dto.ResultadoVotacaoDto;
 import dev.rodrigo.desafiovotacao.dto.VotoRequestDto;
+import dev.rodrigo.desafiovotacao.entity.Cpf;
 import dev.rodrigo.desafiovotacao.entity.SessaoVotacao;
 import dev.rodrigo.desafiovotacao.entity.Voto;
 import dev.rodrigo.desafiovotacao.enums.ResultadoVotacao;
@@ -24,7 +25,9 @@ public class VotoService {
   public Voto votar(Long sessaoId, VotoRequestDto request) {
     SessaoVotacao sessao = verificarSessaoAberta(sessaoId);
 
-    boolean jaVotou = repository.existsBySessaoIdAndAssociadoId(sessaoId, request.getAssociadoId());
+    boolean jaVotou = repository.existsBySessaoIdAndCpfNumero(sessaoId, request.getCpf());
+
+    Cpf cpf = new Cpf(request.getCpf());
 
     if (jaVotou) {
       throw new RuntimeException("Associado já votou nesta sessão");
@@ -32,7 +35,7 @@ public class VotoService {
 
     Voto voto = new Voto();
     voto.setSessao(sessao);
-    voto.setAssociadoId(request.getAssociadoId());
+    voto.setCpf(cpf);
     voto.setTipoVoto(request.getVoto());
     voto.setDataHora(LocalDateTime.now());
 

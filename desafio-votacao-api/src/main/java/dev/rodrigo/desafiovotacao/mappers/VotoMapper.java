@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface VotoMapper {
   @Mapping(source = "sessao.id", target = "sessaoId")
   @Mapping(source = "tipoVoto", target = "voto")
+  @Mapping(source = "cpf.numero", target = "cpf")
   VotoResponseDto toVotoResponseDto(Voto voto);
 }

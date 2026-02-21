@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(
     name = "voto",
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"sessao_id", "associado_id"})})
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"sessao_id", "cpf"})})
 public class Voto {
 
   @Id
@@ -23,8 +23,8 @@ public class Voto {
   @JoinColumn(name = "sessao_id")
   private SessaoVotacao sessao;
 
-  @Column(name = "associado_id", nullable = false)
-  private String associadoId;
+  @Embedded
+  private Cpf cpf;
 
   @Enumerated(EnumType.STRING)
   private TipoVoto tipoVoto;
