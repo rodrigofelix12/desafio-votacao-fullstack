@@ -19,12 +19,7 @@ export default function Resultado() {
     <div className="p-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Resultado da Sessão</h1>
 
-      <button
-        onClick={() => navigate("/")}
-        className="bg-gray-200 text-gray-800 px-4 py-2 rounded mb-4"
-      >
-        Voltar para Home
-      </button>
+      
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="p-4 border rounded text-center">

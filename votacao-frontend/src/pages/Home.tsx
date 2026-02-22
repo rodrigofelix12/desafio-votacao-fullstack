@@ -47,7 +47,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold">Pautas Disponíveis</h1>
         <button
           onClick={() => setModalAberto(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
         >
           Nova Pauta
         </button>
@@ -92,14 +92,15 @@ export default function Home() {
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setModalAberto(false)}
-                className="px-4 py-2 rounded border hover:bg-gray-100"
+                className="px-4 py-2 rounded border hover:bg-gray-100 cursor-pointer"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleCriarPauta}
                 disabled={loading}
-                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 
+                cursor-pointer"
               >
                 {loading ? "Criando..." : "Criar"}
               </button>

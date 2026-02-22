@@ -87,12 +87,7 @@ export default function Sessao() {
     <div className="p-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Sessão {id}</h1>
 
-      <button
-        onClick={() => navigate("/")}
-        className="bg-gray-200 text-gray-800 px-4 py-2 rounded mb-4 w-full"
-      >
-        Voltar para Home
-      </button>
+      
 
       {!sessao && (
         <div className="space-y-2">
@@ -107,7 +102,7 @@ export default function Sessao() {
             />
             <button
               onClick={handleCriarSessao}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
             >
               Criar Sessão
             </button>
@@ -138,13 +133,13 @@ export default function Sessao() {
               <div className="flex gap-4 mb-4">
                 <button
                   onClick={() => handleVotar("SIM")}
-                  className="bg-green-500 text-white px-4 py-2 rounded flex-1"
+                  className="bg-green-500 text-white px-4 py-2 rounded flex-1 cursor-pointer"
                 >
                   SIM
                 </button>
                 <button
                   onClick={() => handleVotar("NAO")}
-                  className="bg-red-500 text-white px-4 py-2 rounded flex-1"
+                  className="bg-red-500 text-white px-4 py-2 rounded flex-1 cursor-pointer"
                 >
                   NÃO
                 </button>
@@ -160,7 +155,7 @@ export default function Sessao() {
       {sessao && !sessao.aberta && (
         <button
           onClick={() => navigate(`/resultado/${sessao.id}`)}
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full cursor-pointer"
         >
           Ver Resultado
         </button>
