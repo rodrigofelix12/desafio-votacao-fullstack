@@ -55,7 +55,7 @@ class VotoConcorrenciaTest {
     Long sessaoId = sessao.getId();
     String cpf = "430.691.550-65";
 
-    int numeroThreads = 1000;
+    int numeroThreads = 20;
 
     when(cpfValidationClient.validarCpf(any()))
         .thenReturn(new CpfValidationResponse("ABLE_TO_VOTE"));

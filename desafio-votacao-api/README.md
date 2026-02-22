@@ -58,3 +58,35 @@ allowedMethods = GET, POST, PUT, DELETE, OPTIONS
 
 ## Swagger com Documentação da API
 - Swagger: http://localhost:8080/swagger-ui/index.html
+
+## Testes
+A API possui testes unitários, de integração e de concorrência.
+
+Rodando todos os testes
+```bash
+./mvnw test
+```
+
+Teste de concorrência (VotoConcorrenciaTest)
+
+Objetivo: garantir que apenas um voto por CPF por sessão seja registrado, mesmo sob alta concorrência (vários usuários tentando votar ao mesmo tempo).
+
+Cenário simulado:
+
+Sessão aberta existente.
+
+20 threads tentando registrar o mesmo CPF simultaneamente.
+
+Apenas o primeiro voto é aceito, os demais lançam RegraNegocioException.
+
+Cobertura:
+
+Testa integridade da restrição única (sessao_id + cpf).
+
+Simula cenários de alto tráfego.
+
+Como funciona internamente:
+
+Uso de ExecutorService e CountDownLatch para executar múltiplas threads simultaneamente.
+
+Consulta final para contar votos garante que apenas 1 voto foi persistido.
