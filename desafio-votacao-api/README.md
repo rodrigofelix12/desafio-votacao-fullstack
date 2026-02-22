@@ -12,6 +12,14 @@ A aplicação permite criar pautas, abrir sessões de votação, registrar votos
 - Lombok
 - JUnit 5 + Mockito
 
+## Escolhas Técnicas
+Foram utilizadas versões estáveis e atuais do Java (versão 21) e do Spring Boot(versão 4), para
+aproveitar novos recursos e facilidades atuais.
+Junto a eles foi utilizado banco de dados H2 para fins de testes e facilidade de distribuição
+para que for avaliar o projeto. Ainda foram utilizados MapStruct para trabalhar com DTO's de forma
+que dados sensíveis possam ser protegidos ao disponibilizar a API. Por último a combinação de 
+Mockito + JUnit5 para garantir a qualidade do código com a criação de testes unitários no projeto.
+
 ## Endpoints
 
 ### Pautas
