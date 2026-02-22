@@ -1,16 +1,52 @@
-# React + Vite
+# Votação - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend da aplicação de votação (single-page app) construída com Vite e React.
 
-Currently, two official plugins are available:
+**Tecnologias usadas:**
+- **React**: biblioteca para UI.
+- **Vite**: bundler / dev server rápido.
+- **Tailwind CSS**: utilitários CSS para estilos responsivos.
+- **React Router**: roteamento de páginas.
+- **Axios**: chamadas HTTP para a API.
+- **React Toastify**: notificações toast.
+- **ESLint**: linting.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Requisitos:**
+- Node.js instalado (recomenda-se Node 16+).
+- npm (ou yarn) disponível.
 
-## React Compiler
+**Instalação e execução (desenvolvimento):**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# instalar dependências
+npm install
 
-## Expanding the ESLint configuration
+# iniciar servidor de desenvolvimento
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+O servidor por padrão usa o Vite; abra o endereço mostrado no terminal (normalmente http://localhost:5173).
+
+**Build para produção:**
+
+```bash
+npm run build
+
+# verificar build localmente
+npm run preview
+```
+
+**Outros scripts úteis:**
+
+```bash
+# rodar linter
+npm run lint
+```
+
+**Estrutura básica do projeto (apenas arquivos relevantes):**
+- `index.html` - HTML de entrada.
+- `src/main.jsx` - ponto de entrada React.
+- `src/App.jsx` - rotas e composição global.
+- `src/components/` - componentes reutilizáveis (ex.: `Navbar.jsx`).
+- `src/pages/` - páginas principais (`Home.tsx`, `Sessao.tsx`, `Resultado.tsx`).
+- `src/api/` - cliente API (`votacaoApi.ts`).
