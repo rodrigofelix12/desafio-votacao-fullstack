@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/api")
+@RequestMapping("/api/v1/pautas")
 @Tag(name = "Pautas", description = "Operações relacionadas às Pautas discutidas em Assembléia")
 public class PautaController {
 

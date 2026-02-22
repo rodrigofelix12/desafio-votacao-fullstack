@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/sessoes")
+@RequestMapping("/api/v1/sessoes")
 @Tag(name = "Sessão de Votação", description = "Operações relacionadas às Sessões de Votação")
 public class SessaoVotacaoController {
 

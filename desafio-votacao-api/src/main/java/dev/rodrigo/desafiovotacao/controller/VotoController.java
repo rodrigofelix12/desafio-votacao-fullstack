@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/votos")
+@RequestMapping("/api/v1/votos")
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Votos", description = "Operações relacionadas aos votos das sessões")
