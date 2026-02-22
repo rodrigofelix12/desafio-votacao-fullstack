@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="bg-cyan-100 shadow-sm relative min-h-[64px] md:min-h-[72px]">
+    <nav className="bg-cyan-100 shadow-sm relative min-h-16 md:min-h-18">
       {/* Left-aligned version for desktop */}
       <div className="absolute left-0 top-0 h-full hidden lg:flex items-center px-4">
         <Link to="/" className="flex items-center gap-3 text-gray-900 group relative">
@@ -27,7 +27,7 @@ export default function Navbar() {
       </div>
 
       {/* Main container - left-aligned on all sizes (mobile included) */}
-      <div className="max-w-[1280px] pt-4 mx-auto px-4 sm:px-6 md:px-8 h-full flex items-center justify-start">
+      <div className="max-w-7xl pt-4 mx-auto px-4 sm:px-6 md:px-8 h-full flex items-center justify-start">
         <Link to="/" className="flex items-center gap-3 text-gray-900 lg:hidden group relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
