@@ -8,4 +8,5 @@ public interface VotoRepository extends JpaRepository<Voto, Long> {
   boolean existsBySessaoIdAndCpfNumero(Long sessaoId, String numero);
 
   long countBySessaoIdAndTipoVoto(Long sessaoId, TipoVoto voto);
+  long countBySessao_Id(Long sessaoId);
 }

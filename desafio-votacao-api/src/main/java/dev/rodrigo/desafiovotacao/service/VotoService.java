@@ -15,6 +15,7 @@ import dev.rodrigo.desafiovotacao.repository.VotoRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,16 +26,10 @@ public class VotoService {
   private final SessaoVotacaoRepository sessaoRepository;
   private final CpfValidationClient cpfValidationClient;
 
+  @Transactional
   public Voto votar(Long sessaoId, VotoRequestDto request) {
+
     SessaoVotacao sessao = verificarSessaoAberta(sessaoId);
-
-    boolean jaVotou = repository.existsBySessaoIdAndCpfNumero(sessaoId, request.getCpf());
-
-    Cpf cpf = new Cpf(request.getCpf());
-
-    if (jaVotou) {
-      throw new RegraNegocioException("Associado já votou nesta sessão");
-    }
 
     CpfValidationResponse response = cpfValidationClient.validarCpf(request.getCpf());
 
@@ -44,13 +39,15 @@ public class VotoService {
 
     Voto voto = new Voto();
     voto.setSessao(sessao);
-    voto.setCpf(cpf);
+    voto.setCpf(new Cpf(request.getCpf()));
     voto.setTipoVoto(request.getVoto());
     voto.setDataHora(LocalDateTime.now());
 
-    repository.save(voto);
-
-    return voto;
+    try {
+      return repository.save(voto);
+    } catch (DataIntegrityViolationException ex) {
+      throw new RegraNegocioException("Associado já votou nesta sessão");
+    }
   }
 
   private SessaoVotacao verificarSessaoAberta(Long sessaoId) {

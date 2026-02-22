@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(
     name = "voto",
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"sessao_id", "cpf"})})
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"sessao_id", "cpf"})},
+    indexes = {@Index(name = "idx_voto_sessao_tipo", columnList = "sessao_id, tipoVoto")})
 public class Voto {
 
   @Id
@@ -23,8 +24,7 @@ public class Voto {
   @JoinColumn(name = "sessao_id")
   private SessaoVotacao sessao;
 
-  @Embedded
-  private Cpf cpf;
+  @Embedded private Cpf cpf;
 
   @Enumerated(EnumType.STRING)
   private TipoVoto tipoVoto;
