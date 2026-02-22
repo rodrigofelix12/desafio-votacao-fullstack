@@ -1,10 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
     <nav className="bg-cyan-100 shadow-sm relative min-h-16 md:min-h-18">
-      {/* Left-aligned version for desktop */}
       <div className="absolute left-0 top-0 h-full hidden lg:flex items-center px-4">
         <Link to="/" className="flex items-center gap-3 text-gray-900 group relative">
           <svg
@@ -26,7 +24,6 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Main container - left-aligned on all sizes (mobile included) */}
       <div className="max-w-7xl pt-4 mx-auto px-4 sm:px-6 md:px-8 h-full flex items-center justify-start">
         <Link to="/" className="flex items-center gap-3 text-gray-900 lg:hidden group relative">
           <svg

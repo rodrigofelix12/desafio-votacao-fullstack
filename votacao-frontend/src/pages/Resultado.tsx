@@ -4,7 +4,6 @@ import { resultadoSessao } from "../api/votacaoApi";
 
 export default function Resultado() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const [resultado, setResultado] = useState<any>(null);
 
   useEffect(() => {
