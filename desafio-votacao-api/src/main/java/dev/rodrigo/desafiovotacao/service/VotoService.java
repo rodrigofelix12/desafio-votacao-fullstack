@@ -1,5 +1,6 @@
 package dev.rodrigo.desafiovotacao.service;
 
+import dev.rodrigo.desafiovotacao.dto.CpfValidationResponse;
 import dev.rodrigo.desafiovotacao.dto.ResultadoVotacaoDto;
 import dev.rodrigo.desafiovotacao.dto.VotoRequestDto;
 import dev.rodrigo.desafiovotacao.entity.Cpf;
@@ -8,6 +9,7 @@ import dev.rodrigo.desafiovotacao.entity.Voto;
 import dev.rodrigo.desafiovotacao.enums.ResultadoVotacao;
 import dev.rodrigo.desafiovotacao.enums.TipoVoto;
 import dev.rodrigo.desafiovotacao.exceptions.RegraNegocioException;
+import dev.rodrigo.desafiovotacao.facade.CpfValidationClient;
 import dev.rodrigo.desafiovotacao.repository.SessaoVotacaoRepository;
 import dev.rodrigo.desafiovotacao.repository.VotoRepository;
 import jakarta.transaction.Transactional;
@@ -21,6 +23,7 @@ public class VotoService {
 
   private final VotoRepository repository;
   private final SessaoVotacaoRepository sessaoRepository;
+  private final CpfValidationClient cpfValidationClient;
 
   public Voto votar(Long sessaoId, VotoRequestDto request) {
     SessaoVotacao sessao = verificarSessaoAberta(sessaoId);
@@ -31,6 +34,12 @@ public class VotoService {
 
     if (jaVotou) {
       throw new RegraNegocioException("Associado já votou nesta sessão");
+    }
+
+    CpfValidationResponse response = cpfValidationClient.validarCpf(request.getCpf());
+
+    if ("UNABLE_TO_VOTE".equals(response.status())) {
+      throw new RegraNegocioException("Usuário não está apto a votar");
     }
 
     Voto voto = new Voto();
